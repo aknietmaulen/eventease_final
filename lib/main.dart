@@ -1,3 +1,5 @@
+import 'package:eventease_final/pages/login_screen.dart';
+import 'package:eventease_final/pages/register_screen.dart';
 import 'package:eventease_final/providers/venue_provider.dart';
 import 'package:eventease_final/pages/all_venues.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,9 @@ class MyApp extends StatelessWidget {
         initialRoute: '/', // Set initial route to VenuesPage
         debugShowCheckedModeBanner: false,
         routes: {
-          '/': (context) => VenuesPage(),  // Start with VenuesPage
+          '/': (context) => VenuesPage(),
+          '/login': (context) => LoginScreen(),
+          '/register': (context) => RegisterScreen(),  // Start with VenuesPage
           // Add other routes here as needed
         },
       ),
