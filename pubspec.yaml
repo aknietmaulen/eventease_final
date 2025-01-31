@@ -39,6 +39,8 @@ dependencies:
   cloud_firestore: ^5.6.2
   provider: ^6.1.2
   firebase_auth: ^5.4.1
+  intl: ^0.20.2
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -63,7 +65,28 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/icons/ic_search.png
+    - assets/icons/ic_filter.png
+    - assets/icons/ic_explore.png
+    - assets/icons/ic_calendar.png
+    - assets/icons/ic_location_marker.png
+    - assets/icons/ic_profile.png
+    - assets/icons/ic_sports.png
+    - assets/icons/ic_music.png
+    - assets/icons/ic_food.png
+    - assets/icons/ic_art.png
+    - assets/icons/ic_menu.png
+    - assets/icons/prof.png
+    - assets/icons/sports.png
+    - assets/icons/enter.png
+    - assets/icons/formal.png
+    - assets/icons/nature.png
+    - assets/icons/emergency.png
+    - assets/icons/mail.png
+    - assets/icons/locked.png
+    - assets/icons/eye_close.png
+    - assets/icons/right_arrow.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -9,7 +9,7 @@ class VenueModel {
   final String place;
   final String contact;
   final double rating; 
-  final double capacity; 
+  final int capacity; 
 
   VenueModel({
     required this.category,
@@ -35,7 +35,7 @@ class VenueModel {
       place: data['place'] ?? '',
       contact: data['contact'] ?? '',
       rating: data['rating']?.toDouble() ?? 0.0,  
-      capacity: data['capacity']?.toDouble() ?? 0.0,  
+      capacity: data['capacity']?.toInt() ?? 0,
     );
   }
 }
