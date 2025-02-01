@@ -1,4 +1,3 @@
-
 import 'package:eventease_final/models/tab_item_model.dart';
 import 'package:eventease_final/models/venue_model.dart';
 import 'package:eventease_final/pages/all_venues.dart';
@@ -42,10 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<TabItemModel> tabItemsList = [
-    TabItemModel(image: "assets/icons/sports.png", title: "Wedding", backgroundColor: MyTheme.pinkWedding),
-    TabItemModel(image: "assets/icons/nature.png", title: "Corporate event", backgroundColor: MyTheme.blueCorporate),
-    TabItemModel(image: "assets/icons/enter.png", title: "Birthday", backgroundColor: MyTheme.yellowBirthday),
-    TabItemModel(image: "assets/icons/emergency.png", title: "Photoshoot", backgroundColor: MyTheme.orangePhotoshoot),
+    TabItemModel(image: "assets/icons/heart.png", title: "Wedding", backgroundColor: MyTheme.pinkWedding),
+    TabItemModel(image: "assets/icons/briefcase.png", title: "Corporate event", backgroundColor: MyTheme.blueCorporate),
+    TabItemModel(image: "assets/icons/balloon.png", title: "Birthday", backgroundColor: MyTheme.yellowBirthday),
+    TabItemModel(image: "assets/icons/photograph.png", title: "Photoshoot", backgroundColor: MyTheme.orangePhotoshoot),
     TabItemModel(image: "assets/icons/formal.png", title: "Conference", backgroundColor: MyTheme.redConference),
   ];
 
@@ -68,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } 
     if (_selectedCategory.isNotEmpty) {
       return venuesProvider.fetchVenuesByCategory(_selectedCategory);
-    } 
+    }
 
     return venuesProvider.fetchPopularVenues(); // Show only popular venues if no search or category selected
   }
@@ -147,6 +146,61 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            BottomBarItem(
+              imagePath: "assets/icons/ic_explore.png",
+              title: "Explore",
+              isSelected: bottomBarItemSelectedIndex == 0,
+              onTap: () {
+                selectBottomBarItem(0);
+              },
+            ),
+            BottomBarItem(
+              imagePath: "assets/icons/ic_calendar.png",
+              title: "Events",
+              isSelected: bottomBarItemSelectedIndex == 1,
+              onTap: () {
+                selectBottomBarItem(1);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => VenuesPage(),
+                  ),
+                );
+              },
+            ),
+            SizedBox(width: 30), // Spacing for FAB
+            BottomBarItem(
+              imagePath: "assets/icons/ic_location_marker.png",
+              title: "Map",
+              isSelected: bottomBarItemSelectedIndex == 2,
+              onTap: () {
+                selectBottomBarItem(2);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MapPage(),
+                  ),
+                );
+              },
+            ),
+            BottomBarItem(
+              imagePath: "assets/icons/ic_profile.png",
+              title: "Profile",
+              isSelected: bottomBarItemSelectedIndex == 3,
+              onTap: () {
+                selectBottomBarItem(3);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(),
+                  ),
+                );
+              },
             ),
           ],
         ),

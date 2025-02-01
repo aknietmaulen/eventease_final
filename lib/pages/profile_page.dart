@@ -70,54 +70,57 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Profile'), automaticallyImplyLeading: false),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: NetworkImage(_profileURL.isNotEmpty ? _profileURL : 'https://erms.bugemauniv.ac.ug/student/image/user_icon.png'),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              _name.isNotEmpty ? _name : 'No Name',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EditProfileScreen()),
-                );
-              },
-              icon: const Icon(Icons.edit, color: Colors.green),
-              label: const Text(
-                'Edit Profile',
-                style: TextStyle(color: Colors.green),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Ensures the column only takes needed space
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 60,
+                backgroundImage: NetworkImage(_profileURL.isNotEmpty ? _profileURL : 'https://erms.bugemauniv.ac.ug/student/image/user_icon.png'),
               ),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
+              const SizedBox(height: 16),
+              Text(
+                _name.isNotEmpty ? _name : 'No Name',
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                  );
+                },
+                icon: const Icon(Icons.edit, color: Colors.yellow),
+                label: const Text(
+                  'Edit Profile',
+                  style: TextStyle(color: Colors.black),
                 ),
-                backgroundColor: Colors.white,
-                side: const BorderSide(color: Colors.green),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.yellow),
+                ),
               ),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () async {
-                await Provider.of<AuthProvider>(context, listen: false).logout();
-                Navigator.pushReplacementNamed(context, '/login');
-              },
-              icon: const Icon(Icons.logout),
-              label: const Text('Sign Out'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  await Provider.of<AuthProvider>(context, listen: false).logout();
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                icon: const Icon(Icons.logout),
+                label: const Text('Sign Out'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(

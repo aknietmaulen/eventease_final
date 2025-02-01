@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eventease_final/models/venue_model.dart'; // Ensure you import VenueModel
+import 'package:eventease_final/models/venue_model.dart';
 
 class VenueDetailsPage extends StatelessWidget {
   final VenueModel venue;
@@ -21,9 +21,7 @@ class VenueDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Display venue photos
             if (venue.photo.isNotEmpty) ...[
-              // First photo (full-width)
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
@@ -34,8 +32,6 @@ class VenueDetailsPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8),
-
-              // Second and third photos (side by side)
               if (venue.photo.length > 1)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,14 +63,12 @@ class VenueDetailsPage extends StatelessWidget {
               SizedBox(height: 16),
             ],
 
-            // Venue Name
             Text(
               venue.name,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
 
-            // Venue Location
             Row(
               children: [
                 Icon(Icons.location_on, color: Colors.grey),
@@ -85,53 +79,14 @@ class VenueDetailsPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 8),
-
-            // Venue Contact
-            Row(
-              children: [
-                Icon(Icons.contact_phone, color: Colors.grey),
-                SizedBox(width: 8),
-                Text(
-                  venue.contact,
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ],
-            ),
             SizedBox(height: 16),
 
-            // Venue Description
-            Text(
-              'About the Venue',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              venue.description,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 32),
-
-            // Venue Categories
-            Text(
-              'Categories',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Wrap(
-              spacing: 8.0,
-              children: venue.category.map((cat) {
-                return Chip(label: Text(cat));
-              }).toList(),
-            ),
-            SizedBox(height: 32),
-
-            // Venue Capacity and Rating
+            // Capacity and Rating in One Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Capacity: ${venue.capacity}',
+                  '${venue.capacity} people',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Row(
@@ -146,9 +101,44 @@ class VenueDetailsPage extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 16),
+
+            // Price and Price Type Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${venue.price} / ${venue.priceType}',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+
+            Text(
+              'About the Venue',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              venue.description,
+              style: TextStyle(fontSize: 16),
+            ),
             SizedBox(height: 32),
 
-            // Contact Venue Button
+            Text(
+              'Categories',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Wrap(
+              spacing: 8.0,
+              children: venue.category.map((cat) {
+                return Chip(label: Text(cat));
+              }).toList(),
+            ),
+            SizedBox(height: 32),
+
             Center(
               child: ElevatedButton(
                 onPressed: () {

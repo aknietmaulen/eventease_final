@@ -1,6 +1,8 @@
 import 'package:eventease_final/pages/home/home_screen.dart';
 import 'package:eventease_final/pages/login_screen.dart';
 import 'package:eventease_final/pages/register_screen.dart';
+import 'package:eventease_final/pages/splash_screen.dart';
+import 'package:eventease_final/providers/auth_provider.dart';
 import 'package:eventease_final/providers/venue_provider.dart';
 import 'package:eventease_final/pages/all_venues.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => VenueProvider()),  // Provider for Venues
-        // Add other providers here if needed
+        ChangeNotifierProvider(create: (_) => VenueProvider()),  
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider(),),
       ],
       child: MaterialApp(
         title: 'EventEase',
@@ -31,9 +33,10 @@ class MyApp extends StatelessWidget {
         initialRoute: '/', // Set initial route to VenuesPage
         debugShowCheckedModeBanner: false,
         routes: {
-          '/': (context) => HomeScreen(),
+          '/': (context) => SplashScreen(),
           '/login': (context) => LoginScreen(),
-          '/register': (context) => RegisterScreen(),  // Start with VenuesPage
+          '/register': (context) => RegisterScreen(),
+           '/home': (context) => HomeScreen(),  // Start with VenuesPage
           // Add other routes here as needed
         },
       ),

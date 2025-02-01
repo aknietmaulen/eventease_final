@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 60),
-              Image.asset('assets/images/logo1.png', height: 100), // Replace with actual logo path
+              //Image.asset('assets/images/logo1.png', height: 100), // Replace with actual logo path
               const Text(
                 'VolunTree',
                 style: TextStyle(

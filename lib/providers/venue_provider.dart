@@ -44,7 +44,7 @@ class VenueProvider with ChangeNotifier {
   Future<List<VenueModel>> fetchVenuesByCategory(String category) async {
     try {
       final querySnapshot = await _db.collection('venues')
-          .where('categories', arrayContains: category) // Firestore array query
+          .where('category', arrayContains: category) // Firestore array query
           .get();
 
       return querySnapshot.docs.map((doc) => VenueModel.fromFirestore(doc)).toList();

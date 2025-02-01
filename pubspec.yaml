@@ -41,6 +41,7 @@ dependencies:
   firebase_auth: ^5.4.1
   intl: ^0.20.2
   carousel_slider: ^5.0.0
+  firebase_performance: ^0.10.1+1
 
 dev_dependencies:
   flutter_test:
@@ -66,23 +67,39 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/bottom_left_shade.png
+    - assets/images/bottom_right_shade.png
+    - assets/images/logo1.png
+    - assets/images/top_right_shade.png
+    - assets/images/voluntree_label.png
+    - assets/images/onboarding1_pic.png
+    - assets/images/onboarding2_pic.png
+    - assets/images/onboarding3_pic.png
+    - assets/images/profile_img1.png
+    - assets/images/profile_img2.png
+    - assets/images/profile_img3.png
+    - assets/images/upcomming_img1.png
+    - assets/images/upcomming_img2.png
+    - assets/images/upcomming_img3.png
+    - assets/images/upcomming_img4.png
     - assets/icons/ic_search.png
     - assets/icons/ic_filter.png
     - assets/icons/ic_explore.png
     - assets/icons/ic_calendar.png
     - assets/icons/ic_location_marker.png
     - assets/icons/ic_profile.png
-    - assets/icons/ic_sports.png
-    - assets/icons/ic_music.png
     - assets/icons/ic_food.png
-    - assets/icons/ic_art.png
+    - assets/icons/balloon.png
+    - assets/icons/heart.png
+    - assets/icons/office.png
     - assets/icons/ic_menu.png
+    - assets/images/nearby_img1.png
+    - assets/images/nearby_img2.png
     - assets/icons/prof.png
-    - assets/icons/sports.png
+    - assets/icons/photograph.png
     - assets/icons/enter.png
     - assets/icons/formal.png
-    - assets/icons/nature.png
-    - assets/icons/emergency.png
+    - assets/icons/briefcase.png
     - assets/icons/mail.png
     - assets/icons/locked.png
     - assets/icons/eye_close.png
