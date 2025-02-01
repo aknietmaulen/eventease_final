@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:eventease_final/models/venue_model.dart';
 
@@ -10,9 +11,9 @@ class VenueDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(venue.name),
+        title: Text(venue.name, style: TextStyle(fontWeight: FontWeight.bold)),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -21,9 +22,10 @@ class VenueDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Venue Images
             if (venue.photo.isNotEmpty) ...[
               ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
                 child: Image.network(
                   venue.photo[0],
                   fit: BoxFit.cover,
@@ -31,10 +33,9 @@ class VenueDetailsPage extends StatelessWidget {
                   height: 200,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 10),
               if (venue.photo.length > 1)
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: ClipRRect(
@@ -46,7 +47,7 @@ class VenueDetailsPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 8),
+                    SizedBox(width: 10),
                     if (venue.photo.length > 2)
                       Expanded(
                         child: ClipRRect(
@@ -63,82 +64,112 @@ class VenueDetailsPage extends StatelessWidget {
               SizedBox(height: 16),
             ],
 
-            Text(
-              venue.name,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-
-            Row(
-              children: [
-                Icon(Icons.location_on, color: Colors.grey),
-                SizedBox(width: 8),
-                Text(
-                  venue.place,
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-
-            // Capacity and Rating in One Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${venue.capacity} people',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                Row(
+            // Venue Information Card
+            Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              elevation: 4,
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.star, color: Colors.amber, size: 20),
-                    SizedBox(width: 4),
                     Text(
-                      venue.rating.toStringAsFixed(1),
-                      style: TextStyle(fontSize: 16),
+                      venue.name,
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(Icons.location_on, color: Colors.redAccent),
+                        SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            venue.place,
+                            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+
+                    // Capacity & Rating Row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.people, color: Colors.blueAccent),
+                            SizedBox(width: 6),
+                            Text(
+                              '${venue.capacity} people',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.star, color: Colors.amber, size: 20),
+                            SizedBox(width: 4),
+                            Text(
+                              venue.rating.toStringAsFixed(1),
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+
+                    // Price Section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.attach_money, color: Colors.green),
+                        SizedBox(width: 6),
+                        Text(
+                          '${venue.price} tg / ${venue.priceType}',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
             SizedBox(height: 16),
 
-            // Price and Price Type Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${venue.price} / ${venue.priceType}',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-
+            // About the Venue
             Text(
               'About the Venue',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
+            Divider(thickness: 1),
             SizedBox(height: 8),
             Text(
               venue.description,
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16, color: Colors.grey[800]),
             ),
-            SizedBox(height: 32),
+            SizedBox(height: 24),
 
+            // Categories Section
             Text(
               'Categories',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
+            Divider(thickness: 1),
             SizedBox(height: 8),
             Wrap(
               spacing: 8.0,
               children: venue.category.map((cat) {
-                return Chip(label: Text(cat));
+                return Chip(
+                  label: Text(cat, style: TextStyle(fontWeight: FontWeight.w500)),
+                  backgroundColor: Colors.blueAccent.withOpacity(0.2),
+                );
               }).toList(),
             ),
             SizedBox(height: 32),
 
+            // Contact Venue Button
             Center(
               child: ElevatedButton(
                 onPressed: () {
@@ -146,7 +177,10 @@ class VenueDetailsPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

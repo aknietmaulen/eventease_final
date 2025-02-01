@@ -21,11 +21,11 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 60),
               //Image.asset('assets/images/logo1.png', height: 100), // Replace with actual logo path
               const Text(
-                'VolunTree',
+                'EventEase',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Color.fromARGB(255, 128, 0, 128),
                 ),
               ),
               const SizedBox(height: 40),
@@ -82,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 103, 197, 106),
+                          backgroundColor: const Color.fromARGB(255, 128, 0, 128),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
                           ),
