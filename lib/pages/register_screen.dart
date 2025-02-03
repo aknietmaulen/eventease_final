@@ -173,7 +173,7 @@ class RegisterScreen extends StatelessWidget {
                     },
                     child: const Text(
                       "Already have an account? Sign in",
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Color.fromRGBO(206, 147, 216, 1)),
                     ),
                   ),
                 ],

@@ -57,7 +57,7 @@ class VenueProvider with ChangeNotifier {
   Future<List<VenueModel>> fetchPopularVenues() async {
     try {
       final querySnapshot = await _db.collection('venues')
-          .where('rating', isGreaterThanOrEqualTo: 4.6) // Query for venues with a rating of 4.7 or higher
+          .where('rating', isGreaterThanOrEqualTo: 4.7) // Query for venues with a rating of 4.7 or higher
           .get();
 
       return querySnapshot.docs.map((doc) => VenueModel.fromFirestore(doc)).toList();

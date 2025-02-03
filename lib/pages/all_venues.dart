@@ -1,11 +1,14 @@
 import 'package:eventease_final/models/venue_model.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:eventease_final/my_theme.dart';
 import 'package:eventease_final/pages/home/home_screen.dart';
+import 'package:eventease_final/pages/home/services_screen.dart';
 import 'package:eventease_final/pages/map_page.dart';
 import 'package:eventease_final/pages/profile_page.dart';
-import 'package:eventease_final/providers/venue_provider.dart';
+import 'package:eventease_final/pages/venue_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:eventease_final/providers/venue_provider.dart';
 
 class VenuesPage extends StatefulWidget {
   const VenuesPage({super.key});
@@ -15,7 +18,7 @@ class VenuesPage extends StatefulWidget {
 }
 
 class _VenuesPageState extends State<VenuesPage> {
-  var bottomBarItemSelectedIndex = 1; // Start on Venues page
+  var bottomBarItemSelectedIndex = 0; // Start on Venues page
 
   void selectBottomBarItem(int index) {
     setState(() {
@@ -37,7 +40,11 @@ class _VenuesPageState extends State<VenuesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Venues'),
+        title: Text('All Venues', style: TextStyle(fontWeight: FontWeight.bold)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Color(0xFF800080)),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         automaticallyImplyLeading: false,
       ),
       body: venueList.isEmpty
@@ -49,13 +56,18 @@ class _VenuesPageState extends State<VenuesPage> {
                 final venueModel = venueList[index];
                 return GestureDetector(
                   onTap: () {
-                    // Just for now, we do nothing on tap
+                    // Navigate to VenueDetailsPage on card tap
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => VenueDetailsPage(venue: venueModel),
+                      ),
+                    );
                   },
                   child: Card(
                     elevation: 5,
-                    margin: EdgeInsets.symmetric(vertical: 8),
+                    margin: EdgeInsets.symmetric(vertical: 12),
                     child: Padding(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(16),
                       child: Row(
                         children: [
                           // Display photo (small size)
@@ -64,12 +76,12 @@ class _VenuesPageState extends State<VenuesPage> {
                               borderRadius: BorderRadius.circular(8),
                               child: Image.network(
                                 venueModel.photo[0],
-                                width: 80,
-                                height: 80,
+                                width: 120,
+                                height: 120,
                                 fit: BoxFit.cover,
                               ),
                             ),
-                          SizedBox(width: 12),
+                          SizedBox(width: 16),
                           // Venue details (name, place, description)
                           Expanded(
                             child: Column(
@@ -79,7 +91,7 @@ class _VenuesPageState extends State<VenuesPage> {
                                 Text(
                                   venueModel.name,
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -89,18 +101,38 @@ class _VenuesPageState extends State<VenuesPage> {
                                   venueModel.place,
                                   style: TextStyle(
                                     color: Colors.grey[600],
+                                    fontSize: 16,
                                   ),
                                 ),
                                 SizedBox(height: 8),
-                                // Venue description (truncate if too long)
+                                // Venue description (handle new lines)
                                 Text(
-                                  venueModel.description,
+                                  venueModel.description.replaceAll("- ", "\n- "),
                                   style: TextStyle(
                                     color: Colors.grey[800],
                                     fontSize: 14,
                                   ),
-                                  maxLines: 2,
+                                  maxLines: 3, // Truncate after 3 lines
                                   overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: 8),
+                                // Show Capacity and Price (additional details)
+                                Row(
+                                  children: [
+                                    Icon(Icons.people, size: 16, color: Colors.blue),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      '${venueModel.capacity} people',
+                                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Icon(Icons.attach_money, size: 16, color: Colors.green),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      '${venueModel.price} tg',
+                                      style: TextStyle(fontSize: 14, color: Colors.green),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -112,29 +144,29 @@ class _VenuesPageState extends State<VenuesPage> {
                 );
               },
             ),
-        bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             BottomBarItem(
-              imagePath: "assets/icons/ic_explore.png",
-              title: "Explore",
+              imagePath: "assets/icons/icon-venue.png",
+              title: "Venues",
               isSelected: bottomBarItemSelectedIndex == 0,
+              onTap: () {
+                selectBottomBarItem(0);
+              },
+            ),
+            BottomBarItem(
+              imagePath: "assets/icons/icon-job.png",
+              title: "Services",
+              isSelected: bottomBarItemSelectedIndex == 1,
               onTap: () {
                 selectBottomBarItem(1);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => HomeScreen(),
+                    builder: (context) => ServicesScreen(),
                   ),
                 );
-              },
-            ),
-            BottomBarItem(
-              imagePath: "assets/icons/ic_calendar.png",
-              title: "Events",
-              isSelected: bottomBarItemSelectedIndex == 1,
-              onTap: () {
-                selectBottomBarItem(1);
               },
             ),
             SizedBox(width: 30), // Spacing for FAB
@@ -170,7 +202,6 @@ class _VenuesPageState extends State<VenuesPage> {
     );
   }
 }
-
 
 class BottomBarItem extends StatelessWidget {
   final String imagePath;

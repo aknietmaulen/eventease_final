@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyTheme {
-  static var primaryColor = Color.fromARGB(255, 128, 0, 128); // Purple
+  static var primaryColor = Color(0xFF800080); // Purple
   static var white = Colors.white;
   static var grey = Colors.grey;
 

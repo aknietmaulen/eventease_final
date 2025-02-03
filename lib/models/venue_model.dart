@@ -12,6 +12,7 @@ class VenueModel {
   final int capacity; 
   final int price; 
   final String priceType;
+  final String link;
 
 
   VenueModel({
@@ -26,6 +27,7 @@ class VenueModel {
     required this.capacity, 
     required this.price, 
     required this.priceType, 
+    required this.link, 
   });
 
   factory VenueModel.fromFirestore(DocumentSnapshot doc) {
@@ -43,6 +45,7 @@ class VenueModel {
       capacity: data['capacity']?.toInt() ?? 0,
       price: data['price']?.toInt() ?? 0,
       priceType: data['price_type'] ?? '',
+      link: data['link'] ?? '',
     );
   }
 }

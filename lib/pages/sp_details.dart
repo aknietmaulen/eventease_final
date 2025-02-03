@@ -1,18 +1,17 @@
-
 import 'package:flutter/material.dart';
-import 'package:eventease_final/models/venue_model.dart';
+import 'package:eventease_final/models/service_provider_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class VenueDetailsPage extends StatelessWidget {
-  final VenueModel venue;
+class SPDetailsPage extends StatelessWidget {
+  final ServiceProviderModel serviceProvider;
 
-  const VenueDetailsPage({super.key, required this.venue});
+  const SPDetailsPage({super.key, required this.serviceProvider});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(venue.name, style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(serviceProvider.name, style: TextStyle(fontWeight: FontWeight.bold)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Color(0xFF800080)),
           onPressed: () => Navigator.of(context).pop(),
@@ -23,38 +22,38 @@ class VenueDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Venue Images
-            if (venue.photo.isNotEmpty) ...[
+            // Service Provider Images
+            if (serviceProvider.photos.isNotEmpty) ...[
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.network(
-                  venue.photo[0],
+                  serviceProvider.photos[0],
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: 200,
                 ),
               ),
               SizedBox(height: 10),
-              if (venue.photo.length > 1)
+              if (serviceProvider.photos.length > 1)
                 Row(
                   children: [
                     Expanded(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.network(
-                          venue.photo[1],
+                          serviceProvider.photos[1],
                           fit: BoxFit.cover,
                           height: 120,
                         ),
                       ),
                     ),
                     SizedBox(width: 10),
-                    if (venue.photo.length > 2)
+                    if (serviceProvider.photos.length > 2)
                       Expanded(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
-                            venue.photo[2],
+                            serviceProvider.photos[2],
                             fit: BoxFit.cover,
                             height: 120,
                           ),
@@ -65,7 +64,7 @@ class VenueDetailsPage extends StatelessWidget {
               SizedBox(height: 16),
             ],
 
-            // Venue Information Card
+            // Service Provider Information Card
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               elevation: 4,
@@ -75,60 +74,31 @@ class VenueDetailsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      venue.name,
+                      serviceProvider.name,
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Icon(Icons.location_on, color: Colors.redAccent),
-                        SizedBox(width: 6),
-                        Expanded(
-                          child: Text(
-                            venue.place,
-                            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-
-                    // Capacity & Rating Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.people, color: Colors.blueAccent),
-                            SizedBox(width: 6),
-                            Text(
-                              '${venue.capacity} people',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.star, color: Colors.amber, size: 20),
-                            SizedBox(width: 4),
-                            Text(
-                              venue.rating.toStringAsFixed(1),
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                      ],
                     ),
                     SizedBox(height: 8),
 
                     // Price Section
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Icon(Icons.attach_money, color: Colors.green),
                         SizedBox(width: 6),
                         Text(
-                          '${venue.price} tg / ${venue.priceType}',
+                          serviceProvider.price,
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12),
+
+                    // Contact Section
+                    Row(
+                      children: [
+                        Icon(Icons.phone, color:Color(0xFF800080)),
+                        SizedBox(width: 6),
+                        Text(
+                          serviceProvider.contact,
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -139,47 +109,47 @@ class VenueDetailsPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
 
-            // About the Venue
+            // About the Service Provider
             Text(
-              'About the Venue',
+              'About the Service Provider',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Divider(thickness: 1),
             SizedBox(height: 8),
             Text(
-              venue.description.replaceAll('- ', '\n- '), // Format bullet points
+              serviceProvider.description.replaceAll('- ', '\n- '),
               style: TextStyle(fontSize: 16, color: Colors.grey[800]),
             ),
             SizedBox(height: 24),
 
-            // Categories Section
+            // Services Section
             Text(
-              'Categories',
+              'Services Offered',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Divider(thickness: 1),
             SizedBox(height: 8),
             Wrap(
               spacing: 8.0,
-              children: venue.category.map((cat) {
+              children: serviceProvider.services.map((service) {
                 return Chip(
-                  label: Text(cat, style: TextStyle(fontWeight: FontWeight.w500)),
-                  backgroundColor: Colors.blueAccent.withOpacity(0.2),
+                  label: Text(service, style: TextStyle(fontWeight: FontWeight.w500)),
+                  backgroundColor:  Color(0xFFFFD700),
                 );
               }).toList(),
             ),
             SizedBox(height: 32),
 
-            // Contact Venue Button
+            // Contact Button
             Center(
               child: ElevatedButton(
                 onPressed: () async {
-                  final Uri url = Uri.parse(venue.link); // Parse the link
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url, mode: LaunchMode.externalApplication);
+                  final Uri phoneUri = Uri.parse('tel:${serviceProvider.contact}');
+                  if (await canLaunchUrl(phoneUri)) {
+                    await launchUrl(phoneUri);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Could not open the chat link")),
+                      SnackBar(content: Text("Could not open phone dialer")),
                     );
                   }
                 },
@@ -193,9 +163,9 @@ class VenueDetailsPage extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("Contact Venue", style: TextStyle(fontSize: 16, color: Colors.white)),
+                    Text("Call now", style: TextStyle(fontSize: 16, color: Colors.white)),
                     SizedBox(width: 8),
-                    Icon(Icons.chat, color: Colors.white), // Changed to chat icon
+                    Icon(Icons.phone, color: Colors.white),
                   ],
                 ),
               ),

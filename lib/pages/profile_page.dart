@@ -3,6 +3,7 @@ import 'package:eventease_final/my_theme.dart';
 import 'package:eventease_final/pages/all_venues.dart';
 import 'package:eventease_final/pages/edit_profile_screen.dart';
 import 'package:eventease_final/pages/home/home_screen.dart';
+import 'package:eventease_final/pages/home/services_screen.dart';
 import 'package:eventease_final/pages/map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,12 +22,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final bottomBarItemsDataList = [
     TabItemModel(
-      image: "assets/icons/ic_explore.png",
-      title: "Explore",
+      image: "assets/icons/icon-venue.png",
+      title: "Venues",
       backgroundColor: MyTheme.customRed,
     ),
     TabItemModel(
-      image: "assets/icons/ic_calendar.png",
+      image: "assets/icons/icon-job.png",
       title: "Services",
       backgroundColor: MyTheme.customYellow,
     ),
@@ -128,8 +129,8 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             BottomBarItem(
-              imagePath: "assets/icons/ic_explore.png",
-              title: "Explore",
+              imagePath: "assets/icons/icon-venue.png",
+              title: "Venues",
               isSelected: bottomBarItemSelectedIndex == 0,
               onTap: () {
                 selectBottomBarItem(0);
@@ -137,12 +138,12 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             BottomBarItem(
-              imagePath: "assets/icons/ic_calendar.png",
-              title: "Events",
+              imagePath: "assets/icons/icon-job.png",
+              title: "Services",
               isSelected: bottomBarItemSelectedIndex == 1,
               onTap: () {
                 selectBottomBarItem(1);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => VenuesPage()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ServicesScreen()));
               },
             ),
             const SizedBox(width: 30),

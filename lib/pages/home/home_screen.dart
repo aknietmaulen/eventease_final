@@ -1,6 +1,7 @@
 import 'package:eventease_final/models/tab_item_model.dart';
 import 'package:eventease_final/models/venue_model.dart';
 import 'package:eventease_final/pages/all_venues.dart';
+import 'package:eventease_final/pages/home/services_screen.dart';
 import 'package:eventease_final/pages/map_page.dart';
 import 'package:eventease_final/pages/profile_page.dart';
 import 'package:eventease_final/pages/venue_details.dart';
@@ -155,22 +156,22 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             BottomBarItem(
-              imagePath: "assets/icons/ic_explore.png",
-              title: "Explore",
+              imagePath: "assets/icons/icon-venue.png",
+              title: "Venues",
               isSelected: bottomBarItemSelectedIndex == 0,
               onTap: () {
                 selectBottomBarItem(0);
               },
             ),
             BottomBarItem(
-              imagePath: "assets/icons/ic_calendar.png",
-              title: "Events",
+              imagePath: "assets/icons/icon-job.png",
+              title: "Services",
               isSelected: bottomBarItemSelectedIndex == 1,
               onTap: () {
                 selectBottomBarItem(1);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => VenuesPage(),
+                    builder: (context) => ServicesScreen(),
                   ),
                 );
               },

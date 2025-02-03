@@ -42,6 +42,10 @@ dependencies:
   intl: ^0.20.2
   carousel_slider: ^5.0.0
   firebase_performance: ^0.10.1+1
+  google_maps_flutter: ^2.10.0
+  url_launcher: ^6.3.1
+  firebase_analytics: ^11.4.1
+
 
 dev_dependencies:
   flutter_test:
@@ -69,7 +73,7 @@ flutter:
   assets:
     - assets/images/bottom_left_shade.png
     - assets/images/bottom_right_shade.png
-    - assets/images/logo1.png
+    - assets/images/logo_f.png
     - assets/images/top_right_shade.png
     - assets/images/voluntree_label.png
     - assets/images/onboarding1_pic.png
@@ -84,8 +88,8 @@ flutter:
     - assets/images/upcomming_img4.png
     - assets/icons/ic_search.png
     - assets/icons/ic_filter.png
-    - assets/icons/ic_explore.png
-    - assets/icons/ic_calendar.png
+    - assets/icons/icon-venue.png
+    - assets/icons/icon-job.png
     - assets/icons/ic_location_marker.png
     - assets/icons/ic_profile.png
     - assets/icons/ic_food.png
