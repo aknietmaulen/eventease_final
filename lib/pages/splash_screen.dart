@@ -1,4 +1,4 @@
-import 'package:eventease_final/pages/login_screen.dart';
+import 'package:eventease_final/pages/onboarding1.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
+            MaterialPageRoute(builder: (context) => Onboarding1Screen()),
           );
         },
         child: Stack(

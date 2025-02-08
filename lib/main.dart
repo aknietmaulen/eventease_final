@@ -1,5 +1,6 @@
 import 'package:eventease_final/pages/home/home_screen.dart';
 import 'package:eventease_final/pages/login_screen.dart';
+import 'package:eventease_final/pages/onboarding1.dart';
 import 'package:eventease_final/pages/register_screen.dart';
 import 'package:eventease_final/pages/splash_screen.dart';
 import 'package:eventease_final/providers/auth_provider.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +21,10 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
+  static final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static final FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +32,22 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => VenueProvider()), 
         ChangeNotifierProvider(create: (_) => ServiceProviderProvider()),  
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider(),),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
       ],
       child: MaterialApp(
         title: 'EventEase',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/', // Set initial route to VenuesPage
+        initialRoute: '/',
         debugShowCheckedModeBanner: false,
+        navigatorObservers: [observer], // Add observer for Firebase Analytics
         routes: {
           '/': (context) => SplashScreen(),
           '/login': (context) => LoginScreen(),
+          '/onboarding': (context) => Onboarding1Screen(),
           '/register': (context) => RegisterScreen(),
-          '/home': (context) => HomeScreen(),  // Start with VenuesPage
-          // Add other routes here as needed
+          '/home': (context) => HomeScreen(),
         },
       ),
     );
