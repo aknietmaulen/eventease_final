@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'EventEase',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         ),
         initialRoute: '/',
         debugShowCheckedModeBanner: false,

@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile'), automaticallyImplyLeading: false),
+      appBar: AppBar(title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.bold)), automaticallyImplyLeading: false),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

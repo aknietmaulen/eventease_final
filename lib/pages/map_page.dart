@@ -121,7 +121,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Map'),
+        title: Text('Map', style: TextStyle(fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: false,
       ),
       body: GoogleMap(
