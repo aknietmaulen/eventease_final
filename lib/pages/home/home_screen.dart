@@ -6,6 +6,7 @@ import 'package:eventease_final/pages/map_page.dart';
 import 'package:eventease_final/pages/profile_page.dart';
 import 'package:eventease_final/pages/venue_details.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../my_theme.dart';
 import './widgets/top_container.dart';
 import './widgets/home_venue_item.dart';
@@ -73,6 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return venuesProvider.fetchPopularVenues(); // Show only popular venues if no search or category selected
   }
 
+  Future<List<VenueModel>> _getVenuesForYou() async {
+    final venuesProvider = Provider.of<VenueProvider>(context, listen: false);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<String> selectedCategories = prefs.getStringList('selectedCategories') ?? [];
+
+    return venuesProvider.getVenuesBySelection(selectedCategories);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onSearch: _onSearch,
               onCategorySelected: _onCategorySelected,
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 27),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Row(
@@ -114,9 +125,58 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: 250,
+              height: 240,
               child: FutureBuilder<List<VenueModel>>(
                 future: _getFilteredVenues(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text("Error: ${snapshot.error}"));
+                  }
+
+                  final venues = snapshot.data ?? [];
+
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: venues.length,
+                    itemBuilder: (ctx, index) {
+                      final venueModel = venues[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => VenueDetailsPage(venue: venueModel),
+                            ),
+                          );
+                        },
+                        child: HomeVenueItem(venueModel: venueModel),
+                      );
+                    },
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 3),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Venues for You",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 240,
+              child: FutureBuilder<List<VenueModel>>(
+                future: _getVenuesForYou(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
@@ -176,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            SizedBox(width: 30), // Spacing for FAB
+            SizedBox(width:3), // Spacing for FAB
             BottomBarItem(
               imagePath: "assets/icons/ic_location_marker.png",
               title: "Map",

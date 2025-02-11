@@ -1,4 +1,5 @@
 import 'package:eventease_final/pages/login_screen.dart';
+import 'package:eventease_final/pages/preference_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -60,7 +61,7 @@ class Onboarding3Screen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => LoginScreen(), // Navigate to your Login screen
+                            builder: (context) => PreferencePage(), // Navigate to your Login screen
                           ));
                         },
                         child: Text(
@@ -92,7 +93,7 @@ class Onboarding3Screen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
+                            builder: (context) => PreferencePage(),
                           ));
                         },
                         child: Text(

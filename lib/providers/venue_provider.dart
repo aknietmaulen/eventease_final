@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:eventease_final/models/venue_model.dart';  // Ensure you import your VenueModel here
@@ -76,4 +78,30 @@ class VenueProvider with ChangeNotifier {
       venue.category.any((cat) => cat.toLowerCase().contains(lowerCaseQuery))
     ).toList();
   }
+
+
+  Future<List<VenueModel>> getVenuesBySelection(List<String> selectedCategories) async {
+  try {
+    // If there are no selected categories, return random venues
+    if (selectedCategories.isEmpty) {
+      if (_venues.isEmpty) {
+        await fetchVenues(); // Ensure venues are loaded
+      }
+      
+      List<VenueModel> randomVenues = List.from(_venues);
+      return randomVenues.take(7).toList(); // Return a few random venues
+    }
+
+    List<VenueModel> filteredVenues = [];
+    for (String category in selectedCategories) {
+      filteredVenues.addAll(await fetchVenuesByCategory(category));
+    }
+
+    return filteredVenues.isNotEmpty ? filteredVenues : _venues; // If no match, return all venues
+  } catch (error) {
+    throw Exception('Failed to fetch recommended venues: $error');
+  }
+}
+
+
 }

@@ -3,6 +3,8 @@ import 'package:eventease_final/pages/onboarding2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:eventease_final/pages/preference_page.dart';
+
 
 class Onboarding1Screen extends StatelessWidget {
   const Onboarding1Screen({super.key});
@@ -13,7 +15,7 @@ class Onboarding1Screen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 100),
+            margin: EdgeInsets.only(top: 120),
             child: Align(
                 alignment: Alignment.topCenter,
                 child: Image(
@@ -61,7 +63,7 @@ class Onboarding1Screen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => LoginScreen(), // Navigate to your Login screen
+                            builder: (context) => PreferencePage(), // Navigate to your Login screen
                           ));
                         },
                         child: Text(
