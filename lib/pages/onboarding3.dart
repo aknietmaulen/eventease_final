@@ -13,7 +13,7 @@ class Onboarding3Screen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 100),
+            margin: EdgeInsets.only(top: 100,left: 20),
             child: Align(
                 alignment: Alignment.topCenter,
                 child: Image(

@@ -14,7 +14,7 @@ class Onboarding2Screen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 130),
+            margin: EdgeInsets.only(top: 130, left: 20),
             child: Align(
                 alignment: Alignment.topCenter,
                 child: Image(
@@ -35,7 +35,7 @@ class Onboarding2Screen extends StatelessWidget {
                 children: [
                   SizedBox(height: 40),
                   Text(
-                    '  Join the events you want ',
+                    ' Plan the events you\n want with our help',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -46,7 +46,7 @@ class Onboarding2Screen extends StatelessWidget {
                     height: 20,
                   ),
                   Text(
-                    '  Compare venue and service provider details\n to your events preferences and mark in calendar  ',
+                    '  Compare venue and service provider details\n to your events preferences and mark in calendar.\n Save favourite options!  ',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,

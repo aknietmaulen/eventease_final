@@ -15,7 +15,7 @@ class Onboarding1Screen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 120),
+            margin: EdgeInsets.only(top: 120, right: 10),
             child: Align(
                 alignment: Alignment.topCenter,
                 child: Image(
