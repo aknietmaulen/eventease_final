@@ -1,5 +1,7 @@
 //final with random time sorted in chronological order
+import 'dart:convert';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventease_final/my_theme.dart';
 import 'package:eventease_final/pages/home/services_screen.dart';
 import 'package:eventease_final/pages/map_page.dart';
@@ -7,6 +9,7 @@ import 'package:eventease_final/pages/profile_page.dart';
 import 'package:eventease_final/pages/review_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:eventease_final/models/venue_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -28,6 +31,58 @@ class _VenueDetailsPageState extends State<VenueDetailsPage> {
       bottomBarItemSelectedIndex = index;
     });
   }
+
+  bool isSaved = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfVenueIsSaved();
+    _generateRandomAvailability();
+  }
+
+  Future<void> _checkIfVenueIsSaved() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> savedVenuesList = prefs.getStringList('saved_venues') ?? [];
+
+    // Encode venue as JSON
+    String venueJson = jsonEncode({
+      "name": widget.venue.name,
+      "imageUrl": widget.venue.photo[0],
+      "place": widget.venue.place, // Ensure 'place' is included
+
+    });
+
+    setState(() {
+      isSaved = savedVenuesList.contains(venueJson);
+    });
+  }
+
+  void _toggleSaveVenue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> savedVenuesList = prefs.getStringList('saved_venues') ?? [];
+
+    // Ensure 'photo' is treated as an array
+    String venueJson = jsonEncode({
+      "name": widget.venue.name,
+      "imageUrl": widget.venue.photo[0], // Store full array instead of a string
+      "place": widget.venue.place, // Ensure 'place' is included
+
+    });
+
+    setState(() {
+      if (isSaved) {
+        savedVenuesList.remove(venueJson);
+        isSaved = false;
+      } else {
+        savedVenuesList.add(venueJson);
+        isSaved = true;
+      }
+    });
+
+    await prefs.setStringList('saved_venues', savedVenuesList);
+  }
+
 
   void _showFullScreenImage(List<String> images, int startIndex) {
     showDialog(
@@ -87,12 +142,6 @@ class _VenueDetailsPageState extends State<VenueDetailsPage> {
     '9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM',
     '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM'
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    _generateRandomAvailability();
-  }
 
   void _generateRandomAvailability() {
     final random = Random();
@@ -163,6 +212,12 @@ class _VenueDetailsPageState extends State<VenueDetailsPage> {
           icon: Icon(Icons.arrow_back, color: Color(0xFF800080)),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_border, color: Colors.purple),
+            onPressed: _toggleSaveVenue,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -170,7 +225,6 @@ class _VenueDetailsPageState extends State<VenueDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Venue Images
-            // Venue Images - One large on top, two smaller below
             if (widget.venue.photo.length >= 3) ...[
               // Large Top Image
               GestureDetector(

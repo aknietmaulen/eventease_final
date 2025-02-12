@@ -75,12 +75,12 @@ class _MapPageState extends State<MapPage> {
       final latLng = LatLng(venue.location.latitude, venue.location.longitude); // Access latitude and longitude from GeoPoint
       _markers.add(
         Marker(
-          markerId: MarkerId(venue.name), // Use a unique identifier for the marker
+          markerId: MarkerId(venue.name), // Unique marker ID
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
           position: latLng,
           infoWindow: InfoWindow(
             title: venue.name,
-            snippet: venue.description,
+            snippet: '${venue.place} • ${venue.capacity} people • ${venue.price} tg/${venue.priceType} • ⭐ ${venue.rating.toStringAsFixed(1)}',
           ),
           onTap: () {
             // Handle marker tap
@@ -92,16 +92,49 @@ class _MapPageState extends State<MapPage> {
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.network(venue.photo[0]), // Display the venue photo
-                      SizedBox(height: 8),
-                      Text(venue.description),
-                      SizedBox(height: 8),
-                      Text('Location: ${venue.place}'),
+                      Image.network(venue.photo.isNotEmpty ? venue.photo[0] : 'https://via.placeholder.com/150'), // Show first photo or placeholder
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(Icons.location_on, color: Colors.redAccent),
+                          const SizedBox(width: 6),
+                          Expanded(child: Text(venue.place, style: TextStyle(fontSize: 16, color: Colors.grey[700]))),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.people, color: Colors.blueAccent),
+                              const SizedBox(width: 6),
+                              Text('${venue.capacity} people', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(Icons.star, color: Colors.amber, size: 20),
+                              const SizedBox(width: 4),
+                              Text(venue.rating.toStringAsFixed(1), style: const TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.attach_money, color: Colors.green),
+                          const SizedBox(width: 6),
+                          Text('${venue.price} tg / ${venue.priceType}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ],
                   ),
                   actions: [
                     TextButton(
-                      child: Text('Close'),
+                      child: const Text('Close'),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -113,10 +146,9 @@ class _MapPageState extends State<MapPage> {
           },
         ),
       );
+      setState(() {}); // Update the UI to show the markers
     }
-    setState(() {}); // Update the UI to show the markers
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

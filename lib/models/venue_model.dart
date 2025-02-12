@@ -48,4 +48,5 @@ class VenueModel {
       link: data['link'] ?? '',
     );
   }
+  
 }
