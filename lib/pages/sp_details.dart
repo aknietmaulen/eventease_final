@@ -6,6 +6,51 @@ class SPDetailsPage extends StatelessWidget {
   final ServiceProviderModel serviceProvider;
 
   const SPDetailsPage({super.key, required this.serviceProvider});
+  void _showFullScreenImage(BuildContext context, List<String> images, int startIndex) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black,
+      builder: (context) {
+        return Stack(
+          children: [
+            PageView.builder(
+              itemCount: images.length,
+              controller: PageController(initialPage: startIndex),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: InteractiveViewer(
+                    panEnabled: true,
+                    minScale: 1,
+                    maxScale: 4,
+                    child: Container(
+                      color: Colors.black,
+                      alignment: Alignment.center,
+                      child: Image.network(
+                        images[index],
+                        fit: BoxFit.contain,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            Positioned(
+              top: 40,
+              right: 20,
+              child: IconButton(
+                icon: Icon(Icons.close, color: Colors.white, size: 30),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +68,18 @@ class SPDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Service Provider Images
+            // Service Provider Images (Larger + Full-Screen)
             if (serviceProvider.photos.isNotEmpty) ...[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  serviceProvider.photos[0],
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 200,
+              GestureDetector(
+                onTap: () => _showFullScreenImage(context, serviceProvider.photos, 0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    serviceProvider.photos[0],
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 200, // ⬆ Increased height for better visibility
+                  ),
                 ),
               ),
               SizedBox(height: 10),
@@ -38,24 +87,30 @@ class SPDetailsPage extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          serviceProvider.photos[1],
-                          fit: BoxFit.cover,
-                          height: 120,
+                      child: GestureDetector(
+                        onTap: () => _showFullScreenImage(context, serviceProvider.photos, 1),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            serviceProvider.photos[1],
+                            fit: BoxFit.cover,
+                            height: 120, // ⬆ Increased height
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(width: 10),
                     if (serviceProvider.photos.length > 2)
                       Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            serviceProvider.photos[2],
-                            fit: BoxFit.cover,
-                            height: 120,
+                        child: GestureDetector(
+                          onTap: () => _showFullScreenImage(context, serviceProvider.photos, 2),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              serviceProvider.photos[2],
+                              fit: BoxFit.cover,
+                              height: 120, // ⬆ Increased height
+                            ),
                           ),
                         ),
                       ),
@@ -63,6 +118,7 @@ class SPDetailsPage extends StatelessWidget {
                 ),
               SizedBox(height: 16),
             ],
+
 
             // Service Provider Information Card
             Card(
