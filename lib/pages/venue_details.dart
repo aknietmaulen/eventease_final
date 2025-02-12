@@ -1,5 +1,10 @@
 //final with random time sorted in chronological order
 import 'dart:math';
+import 'package:eventease_final/my_theme.dart';
+import 'package:eventease_final/pages/home/services_screen.dart';
+import 'package:eventease_final/pages/map_page.dart';
+import 'package:eventease_final/pages/profile_page.dart';
+import 'package:eventease_final/pages/review_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:eventease_final/models/venue_model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,6 +20,65 @@ class VenueDetailsPage extends StatefulWidget {
 }
 
 class _VenueDetailsPageState extends State<VenueDetailsPage> {
+
+  var bottomBarItemSelectedIndex = 0;
+
+  void selectBottomBarItem(int index) {
+    setState(() {
+      bottomBarItemSelectedIndex = index;
+    });
+  }
+
+  void _showFullScreenImage(List<String> images, int startIndex) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black, // Full dark background
+      builder: (context) {
+        return Stack(
+          children: [
+            // Full-screen PageView
+            PageView.builder(
+              itemCount: images.length,
+              controller: PageController(initialPage: startIndex),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () => Navigator.of(context).pop(), // Tap anywhere to close
+                  child: InteractiveViewer(
+                    panEnabled: true,
+                    minScale: 1,
+                    maxScale: 4,
+                    child: Container(
+                      color: Colors.black, // Ensures full black background
+                      alignment: Alignment.center,
+                      child: Image.network(
+                        images[index],
+                        fit: BoxFit.contain, // Prevents cropping
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+
+            // Close Button (Top-Right)
+            Positioned(
+              top: 40,
+              right: 20,
+              child: IconButton(
+                icon: Icon(Icons.close, color: Color(0xFF800080), size: 30),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDate = DateTime.now();
   Map<DateTime, List<String>> availableTimes = {};
@@ -106,19 +170,57 @@ class _VenueDetailsPageState extends State<VenueDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Venue Images
-            if (widget.venue.photo.isNotEmpty) ...[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  widget.venue.photo[0],
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 200,
+            // Venue Images - One large on top, two smaller below
+            if (widget.venue.photo.length >= 3) ...[
+              // Large Top Image
+              GestureDetector(
+                onTap: () => _showFullScreenImage(widget.venue.photo, 0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    widget.venue.photo[0],
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 200,
+                  ),
                 ),
+              ),
+              SizedBox(height: 8),
+
+              // Two Smaller Images Below
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _showFullScreenImage(widget.venue.photo, 1),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          widget.venue.photo[1],
+                          fit: BoxFit.cover,
+                          height: 100,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _showFullScreenImage(widget.venue.photo, 2),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          widget.venue.photo[2],
+                          fit: BoxFit.cover,
+                          height: 100,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 16),
             ],
-
             // Venue Information Card
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -172,6 +274,7 @@ class _VenueDetailsPageState extends State<VenueDetailsPage> {
             ),
 
             // About the Venue
+            SizedBox(height: 8),
             Text('About the Venue', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Divider(thickness: 1),
             SizedBox(height: 8),
@@ -228,6 +331,106 @@ class _VenueDetailsPageState extends State<VenueDetailsPage> {
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF800080), padding: EdgeInsets.symmetric(horizontal: 32, vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                 child: Row(mainAxisSize: MainAxisSize.min, children: [Text("Contact Venue", style: TextStyle(fontSize: 16, color: Colors.white)), SizedBox(width: 8), Icon(Icons.chat, color: Colors.white)]),
+              ),
+            ),
+            SizedBox(height: 32),
+            ReviewsSection(venueName: widget.venue.name),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            BottomBarItem(
+              imagePath: "assets/icons/icon-venue.png",
+              title: "Venues",
+              isSelected: bottomBarItemSelectedIndex == 0,
+              onTap: () {
+                selectBottomBarItem(0);
+              },
+            ),
+            BottomBarItem(
+              imagePath: "assets/icons/icon-job.png",
+              title: "Services",
+              isSelected: bottomBarItemSelectedIndex == 1,
+              onTap: () {
+                selectBottomBarItem(1);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ServicesScreen(),
+                  ),
+                );
+              },
+            ),
+            SizedBox(width:3), // Spacing for FAB
+            BottomBarItem(
+              imagePath: "assets/icons/ic_location_marker.png",
+              title: "Map",
+              isSelected: bottomBarItemSelectedIndex == 2,
+              onTap: () {
+                selectBottomBarItem(2);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MapPage(),
+                  ),
+                );
+              },
+            ),
+            BottomBarItem(
+              imagePath: "assets/icons/ic_profile.png",
+              title: "Profile",
+              isSelected: bottomBarItemSelectedIndex == 3,
+              onTap: () {
+                selectBottomBarItem(3);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class BottomBarItem extends StatelessWidget {
+  final String imagePath;
+  final String title;
+  final bool isSelected;
+  final Function onTap;
+
+  BottomBarItem({
+    super.key,
+    required this.imagePath,
+    required this.title,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onTap.call(),
+      child: Container(
+        margin: EdgeInsets.only(top: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image(
+              width: 24,
+              height: 24,
+              image: AssetImage(imagePath),
+              color: (isSelected) ? MyTheme.customPurple1 : MyTheme.grey,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                color: (isSelected) ? MyTheme.customPurple1 : MyTheme.grey,
               ),
             ),
           ],

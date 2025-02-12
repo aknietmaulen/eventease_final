@@ -4,6 +4,7 @@ import 'package:eventease_final/pages/onboarding1.dart';
 import 'package:eventease_final/pages/register_screen.dart';
 import 'package:eventease_final/pages/splash_screen.dart';
 import 'package:eventease_final/providers/auth_provider.dart';
+import 'package:eventease_final/providers/review_provider.dart';
 import 'package:eventease_final/providers/service_provider.dart';
 import 'package:eventease_final/providers/venue_provider.dart';
 import 'package:eventease_final/pages/all_venues.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => VenueProvider()), 
+        ChangeNotifierProvider(create: (_) => ReviewProvider()), 
         ChangeNotifierProvider(create: (_) => ServiceProviderProvider()),  
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
       ],

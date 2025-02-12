@@ -56,7 +56,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   // Initial position for the map
-  static const LatLng _initialPosition = LatLng(51.16693117041015, 71.42941761898858); // Coordinates for Almaty, Kazakhstan
+  static const LatLng _initialPosition = LatLng(51.16693117041015, 71.42941761898858); // Coordinates for Astana, Kazakhstan
 
   @override
   void initState() {
