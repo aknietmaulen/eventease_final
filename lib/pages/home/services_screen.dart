@@ -174,7 +174,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 selectBottomBarItem(1);
               },
             ),
-            SizedBox(width: 30), // Spacing for FAB
+            SizedBox(width: 3),
             BottomBarItem(
               imagePath: "assets/icons/ic_location_marker.png",
               title: "Map",

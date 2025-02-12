@@ -26,29 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String _profileURL = '';
   List<Map<String, String>> savedVenues = [];
 
-  final bottomBarItemsDataList = [
-    TabItemModel(
-      image: "assets/icons/icon-venue.png",
-      title: "Venues",
-      backgroundColor: MyTheme.customRed,
-    ),
-    TabItemModel(
-      image: "assets/icons/icon-job.png",
-      title: "Services",
-      backgroundColor: MyTheme.customYellow,
-    ),
-    TabItemModel(
-      image: "assets/icons/ic_location_marker.png",
-      title: "Map",
-      backgroundColor: MyTheme.foodTabItemColor,
-    ),
-    TabItemModel(
-      image: "assets/icons/ic_profile.png",
-      title: "Profile",
-      backgroundColor: MyTheme.customRed,
-    ),
-  ];
-  
   var bottomBarItemSelectedIndex = 3;
 
   void selectBottomBarItem(int index) {
@@ -232,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => ServicesScreen()));
               },
             ),
-            const SizedBox(width: 30),
+            const SizedBox(width: 3),
             BottomBarItem(
               imagePath: "assets/icons/ic_location_marker.png",
               title: "Map",
