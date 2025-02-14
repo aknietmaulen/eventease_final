@@ -2,6 +2,7 @@ import 'package:eventease_final/models/tab_item_model.dart';
 import 'package:eventease_final/my_theme.dart';
 import 'package:eventease_final/pages/home/home_screen.dart';
 import 'package:eventease_final/pages/home/widgets/top_container.dart';
+import 'package:eventease_final/pages/home/widgets/top_container_sp.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/service_provider_model.dart';
@@ -62,7 +63,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
     return Scaffold(
       body: Column(
         children: [
-          TopContainer(
+          TopContainerSP(
             tabItemsList: [],
             onSearch: _onSearch,
             onCategorySelected: (_) {},

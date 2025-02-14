@@ -26,21 +26,6 @@ class ServiceProviderProvider with ChangeNotifier {
     }
   }
 
-  // Fetch a single service provider by ID
-  Future<ServiceProviderModel> fetchServiceProviderById(String providerId) async {
-    try {
-      final docSnapshot = await _db.collection('service_providers').doc(providerId).get();
-
-      if (docSnapshot.exists) {
-        return ServiceProviderModel.fromFirestore(docSnapshot);
-      } else {
-        throw Exception('Service provider not found');
-      }
-    } catch (error) {
-      throw Exception('Failed to fetch service provider: $error');
-    }
-  }
-
   // Fetch service providers by category
   Future<List<ServiceProviderModel>> fetchServiceProvidersByCategory(String category) async {
     try {
